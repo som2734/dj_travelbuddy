@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Travel Buddy: User Profile</title>
+  </head>
+  <style>
+  *{
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  input[type='submit']{
+    margin-top: 10px;
+    border: 1px solid teal;
+    border-radius: 4px;
+    background-color: teal;
+    padding: 4px;
+    color: white;
+  }
+  form {
+    width: 90%;
+    margin: 0 auto;
+  }
+  h2 {
+    width: 90%;
+    margin: 10px auto;
+    margin-top: 24px;
+  }
+
+  table {
+    text-align: left;
+    padding: 4px;
+  }
+  </style>
+  <body>
+    <header>
+      {% if messages %}<h2 class="messages">
+        {% for message in messages %}
+          {% if message.tags %}
+            {{ message.tags}}
+          {% endif %}
+            {{message}}
+          {% endfor %}
+     {% endif %}</h2>
+
+      <form class="" action="/logout" method="post">
+          <a href="/"><p>Logout</p></a>
+
+      </form>
+
+    </header>
+    <hr>
+    <h3>Your Scheduled Trips:</h3>
+    <table cols=4>
+      <thead>
+        <tr>
+          <th>Destination</th>
+          <th>Travel Start Date</th>
+          <th>Travel End Date</th>
+          <th>Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <br>
+          {%csrf_token%}
+          {% for trips in my_trips %}
+          <tr>
+              <a href=''><td>{{trips.destination}}</td></a>
+              <td>{{trips.start_date}}</td>
+              <td>{{trips.end_date}}</td>
+              <td>{{trips.plan}}</td>
+          </tr>
+          {% endfor %}
+    </tbody>
+    </table>
+    <table cols=4>
+      <h3>TBD  Other User's Travel Plans:</h3>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Destination</th>
+          <th>Travel Start Date</th>
+          <th>Travel End Date</th>
+          <th>Plan</th>
+          <th>Join</th>
+        </tr>
+      </thead>
+        <tbody>
+            {% for trip in other_trips %}
+          <tr>
+            <td>{{trip.user.first_name}}</td>
+            <td><a href='/trip_details/{{trip.id}}'>{{trip.destination}}</a></td>
+            <td>{{trip.start_date}}</td>
+            <td>{{trip.end_date}}</td>
+            <td>{{trip.plan}}</td>
+            <form action="/join_trip/{{trip.id}}" method="post">
+              {% csrf_token %}
+              <td>
+                <input type="submit" name="submit" value="Join">
+              </td>
+            </form>
+
+          </tr>
+            {% endfor %}
+          
+
+      </tbody>
+    </table>
+    <br>
+    <a href="/add_trip">Add Travel Plan</a>
+
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>Travel Buddy: Login &amp; Registration</title>
+  </head>
+  <style>
+  *{
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  input[type='submit']{
+    margin-top: 10px;
+    border: 1px solid teal;
+    border-radius: 4px;
+    background-color: teal;
+    padding: 4px;
+    color: white;
+  }
+  form {
+    width: 90%;
+    margin: 0 auto;
+  }
+  h2 {
+    width: 90%;
+    margin: 10px auto;
+    margin-top: 24px;
+  }
+  </style>
+  <body>
+    <h2>Register</h2>
+    <form action="/register" method="POST" class="register">
+      {%csrf_token%}
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+     {% endif %}
+      <p>Email:</p><input type="email" name="email">
+      <p>First Name:</p><input type="text" name="first_name">
+      <p>Last Name:</p><input type="text" name="last_name">
+      <p>Password:</p><input type="text" name="password">
+      <p>Confirm Password:</p><input type="text" name="conf_password">
+      <p>Birthdate: </p><input type="date" name="b_day">*optional<br>
+      <a href="/register"><input type="submit" name="register" value="REGISTER"></a>
+    </form>
+    <h2>Login</h2>
+    <form action="/login" method="POST" class="login">
+      {%csrf_token%}
+      <p>Email:</p><input type="email" name="email">
+      <p>Password:</p><input type="text" name="password"><br>
+      <a href="/login"><input type="submit" name="login" value="LOGIN"></a>
+    </form>
+  </body>
+</html>

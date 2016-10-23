@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Travel Buddy: Add a Trip</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+      var dateFormat = "mm/dd/yy"
+        from = $( "#from" )
+          .datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3
+          })
+          .on( "change", function() {
+            to.datepicker( "option", "minDate", getDate( this ) );
+          }),
+        to = $( "#to" ).datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 3
+        })
+        .on( "change", function() {
+          from.datepicker( "option", "maxDate", getDate( this ) );
+        });
+
+      function getDate( element ) {
+        var date;
+        try {
+          date = $.datepicker.parseDate( dateFormat, element.value );
+        } catch( error ) {
+          date = null;
+        }
+        return date;
+      }
+    });
+    </script>
+  </head>
+  <body>
+    <form action="/process_trip/" method="post">
+      {% csrf_token %}
+      <h3>Add a Trip:</h3>
+      <p>Destination: </p><br>
+      <input type="text" name="destination">
+      <p>Description: </p>
+      <textarea name="plan" rows="8" cols="40"></textarea><br>
+      <label for="from">Travel Start Date:</label>
+      <input type="text" id="from" name="start_date">
+      <label for="to">Travel End Date:</label>
+      <input type="text" id="to" name="end_date">
+      <!-- <p>Travel Start Date: <input type="text" id="datepicker" name="start_date"></p>
+
+      <p>Travel End Date: <input type="text" id="datepicker" name="end_date"></p> -->
+      <input type="submit" name="submit" value="Add">
+    </form>
+  </body>
+</html>
